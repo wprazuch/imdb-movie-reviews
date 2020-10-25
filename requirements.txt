@@ -1,0 +1,10 @@
+joblib==0.15.1
+kfserving==0.4.1
+numpy==1.19.2
+pandas==1.0.3
+scikit-image==0.16.2
+scikit-learn==0.22.2.post1
+tensorflow==2.3.0
+tensorflow-addons==0.11.2
+tensorflow-estimator==2.3.0
+tensorflow-hub==0.9.0

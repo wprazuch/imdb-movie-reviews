@@ -1,0 +1,5 @@
+.data
+.ipynb_checkpoints
+.mypy_cache
+.pytest_cache
+.vector_cache

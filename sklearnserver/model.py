@@ -3,9 +3,12 @@ import joblib
 import numpy as np
 import os
 from typing import Dict
+import pickle
 
-MODEL_BASENAME = 'rf'
+MODEL_BASENAME = 'random_forest'
 MODEL_EXTENSIONS = ['.joblib', '.pkl', '.pickle']
+
+CLASS_MAPPING = os.path.join('static', 'class_mapping.pkl')
 
 
 class SKLearnModel(kfserving.KFModel):
@@ -16,6 +19,8 @@ class SKLearnModel(kfserving.KFModel):
         self.name = name
         self.model_dir = model_dir
         self.ready = False
+        with open(CLASS_MAPPING, 'rb') as handle:
+            self.class_mapping = pickle.load(handle)
 
     def load(self) -> bool:
         model_path = kfserving.Storage.download(self.model_dir)
@@ -23,9 +28,14 @@ class SKLearnModel(kfserving.KFModel):
             os.path.join(model_path, MODEL_BASENAME + model_extension)
             for model_extension in MODEL_EXTENSIONS]
 
+        print(paths)
+
         for path in paths:
             if os.path.exists(path):
+                print("Path exists")
+                print(path)
                 self._model = joblib.load(path)
+                print(type(self._model))
                 self.ready = True
                 break
 
@@ -38,7 +48,7 @@ class SKLearnModel(kfserving.KFModel):
         except Exception as e:
             raise Exception('Failed in initialize NumPy array from inputs: %s, %s' % (e, instances))
         try:
-            result = self._model.predict(inputs).tolist()
-            return {'predictions': result}
+            result = self._model.predict(inputs).tolist()[0]
+            return {'predictions': self.class_mapping[result]}
         except Exception as e:
             raise Exception("Failed to predict %s" % e)

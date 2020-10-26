@@ -48,6 +48,8 @@ class KFModelRepository:
         pass
 
     def unload(self, name: str):
+        print("Models available:")
+        print(self.models)
         if name in self.models:
             del self.models[name]
         else:

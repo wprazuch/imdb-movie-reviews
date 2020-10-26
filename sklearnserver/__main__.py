@@ -6,7 +6,7 @@ import kfserving
 from sklearnserver import SKLearnModel, SKLearnModelRepository
 
 
-DEFAULT_MODEL_NAME = 'rf'
+DEFAULT_MODEL_NAME = 'model'
 DEFAULT_LOCAL_MODEL_DIR = '/tmp/model'
 
 
@@ -20,7 +20,7 @@ args, _ = parser.parse_known_args()
 
 if __name__ == '__main__':
     model = SKLearnModel(args.model_name, args.model_dir)
-
+    print("Starting...")
     try:
         model.load()
     except Exception as e:
@@ -28,6 +28,11 @@ if __name__ == '__main__':
         logging.error(f"fail to load model {args.model_name} from dir {args.model_dir}. "
                       f"exception type {ex_type}, exception msg: {ex_value}")
         model.ready = False
+        print("Exception")
 
-    kfserving.KFServer().start(
-        [model] if model.ready else[])
+    print(model)
+    kf_server = kfserving.KFServer()
+    kf_server.register_model(model)
+
+    kf_server.start([model])
+

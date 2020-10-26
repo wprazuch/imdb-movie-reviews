@@ -1,0 +1,1 @@
+python -m sklearnserver --model_dir models --model_name svm

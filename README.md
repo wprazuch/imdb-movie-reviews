@@ -13,3 +13,4 @@ machine learning algorithms do well on this problem, but deep learning models we
 
 For deployment, KFServing was used for `sklearn` models.
 
+Serving of PyTorch models is under development and hopefully will be finished soon.

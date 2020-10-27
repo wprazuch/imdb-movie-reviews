@@ -1,1 +1,3 @@
 python -m sklearnserver --model_dir models --model_name svm
+
+python -m pytorchserver --model_dir models/cnn --model_name cnn --model_class_name CNN

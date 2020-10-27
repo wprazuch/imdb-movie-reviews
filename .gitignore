@@ -3,3 +3,5 @@
 .mypy_cache
 .pytest_cache
 .vector_cache
+*/*pycache*
+__pycache__
